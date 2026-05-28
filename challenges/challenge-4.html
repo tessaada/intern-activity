@@ -5,19 +5,12 @@
     </head>
     <body>
         <div class="container">
-            <div class="title">Challenge 4: Caesar Cipher</div>
+            <div class="title">Challenge 4: Codeword</div>
             <div class="instructions">
                 <h2>Instructions</h2>
-                <p>
-                    You have been given a suspicious code encrypted using Caesar Cipher. Your task is to write a Python program to help you decrypt it. A traditional caesar cipher 'rotates' the
-                    unencrypted letters, replacing each letter with a letter offset by 3. For example, 'CAT' would become 'FDW'.
-                </p>
-                <p>
-                    Given this code:<br />
-                    <b>hvs rsqcrsr obgksf wg qcadihsf dfcqsggcf</b><br />
-                    find the unencrypted answer.
-                </p>
-                <p>HINT: the rotation could be something other than 3…</p>
+                <p>You have been given the code: <b>41267520</b></p>
+                <p>This has been calculated by multiplying the ASCII values of 4 letters, which together make up a word. Reverse engineer the code to find the 4 letter answer.</p>
+                <p>HINT: the 4-letter word uses uppercase letters only.</p>
             </div>
             <div class="workspace">
                 <p style="margin-bottom: 16px">
@@ -41,8 +34,8 @@
         <footer></footer>
 
         <script>
-            var correctHash = "e3398f8eddab784f516e554e3e517cf0a4aa2de9c51534960f7106059bc1fa40";
-            var salt = atob("V0lUY2hhbGxlbmdlMQ==");
+            var correctHash = "f740d8afd6d1ff48c96afd339b2fe2723e730011046b0b06c623c2a9cd339c42";
+            var salt = atob("V0lUY2hhbGxlbmdlMg==");
 
             async function hashInput(input) {
                 var encoder = new TextEncoder();
@@ -73,7 +66,7 @@
                         feedback.textContent = "✅ Correct! Well done!";
                         feedback.style.color = "green";
                         submitButton.textContent = "Continue";
-                        localStorage.setItem("current_challenge", "4");
+                        localStorage.setItem("current_challenge", "6");
                     } else {
                         feedback.textContent = "❌ Incorrect, try again.";
                         feedback.style.color = "red";

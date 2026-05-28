@@ -1,16 +1,15 @@
 <html>
     <head>
         <title>WIT Challenge</title>
-        <link rel="stylesheet" href="challenge.css" />
+        <link rel="stylesheet" href="challenge-template.css" />
     </head>
     <body>
         <div class="container">
-            <div class="title">Challenge 6: Codeword</div>
+            <div class="title">Challenge 6: Tower of Hanoi</div>
             <div class="instructions">
-                <h2>Instructions</h2>
-                <p>You have been given the code: <b>41267520</b></p>
-                <p>This has been calculated by multiplying the ASCII values of 4 letters, which together make up a word. Reverse engineer the code to find the 4 letter answer.</p>
-                <p>HINT: the 4-letter word uses uppercase letters only.</p>
+                <h2>Instructions:</h2>
+                <p>In this game of Tower of Hanoi, there are 3 towers and 5 discs of different sizes. You start with all discs on Tower 1, and the goal is to move them all to Tower 3. You can only move one disc at a time, and you can't put a bigger disc on top of a smaller disc.</p>
+                <p>Create a function that takes the number of discs as an argument and returns the minimum number of steps needed to complete the game.</p>
             </div>
             <div class="workspace">
                 <p style="margin-bottom: 16px">
@@ -34,7 +33,7 @@
         <footer></footer>
 
         <script>
-            var correctHash = "f740d8afd6d1ff48c96afd339b2fe2723e730011046b0b06c623c2a9cd339c42";
+            var correctHash = "61e8cc9ffa5377ba54025a4f73cb554fd21a129f12545b02c60944598171b56f";
             var salt = atob("V0lUY2hhbGxlbmdlMg==");
 
             async function hashInput(input) {
@@ -53,6 +52,7 @@
                 var input = document.getElementById("answer-input").value.trim();
                 var feedback = document.getElementById("answer-feedback");
                 const submitButton = document.getElementById("submitButton");
+                
                 if (submitButton.textContent == "Submit") {
                     if (input === "") {
                         feedback.textContent = "⚠️ Please enter an answer.";
@@ -66,7 +66,7 @@
                         feedback.textContent = "✅ Correct! Well done!";
                         feedback.style.color = "green";
                         submitButton.textContent = "Continue";
-                        localStorage.setItem("current_challenge", "6");
+                        localStorage.setItem("current_challenge", "2");
                     } else {
                         feedback.textContent = "❌ Incorrect, try again.";
                         feedback.style.color = "red";

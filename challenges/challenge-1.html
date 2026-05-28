@@ -1,125 +1,102 @@
+<!doctype html>
 <html>
     <head>
         <title>WIT Challenge</title>
         <link rel="stylesheet" href="challenge-template.css" />
     </head>
-
     <body>
         <div class="container">
-
-            <div class="title">Challenge 1: Fraud Detection Terminal</div>
+            <div class="title">Challenge 1: Security Door</div>
 
             <div class="instructions">
                 <h2>Instructions</h2>
-
-                <p>
-                    A banking system has flagged multiple transactions for review.
-                    Your task is to analyse the dataset and identify which transactions are fraudulent.
-                </p>
-
-                <p>
-                    You have been given a dataset here:
-                    <a href="./transactions.txt">transactions.txt</a>
-                </p>
-
-                <p>Each transaction follows this format:</p>
-
-                <pre>TransactionID,Amount,Hour,AccountAge</pre>
-
-                <p><b>Fraud Risk Rules:</b></p>
-
-                <ul>
-                    <li>Amount > 2000 → +1 risk point</li>
-                    <li>Amount > 5000 → +2 risk points (replaces normal amount rule)</li>
-                    <li>Transaction hour between 01:00–04:00 → +1 risk point</li>
-                    <li>Account age < 30 days → +1 risk point</li>
-                </ul>
-
-                <p>
-                    A transaction is classified as <b>FRAUD</b> if its total risk score is <b>2 or more</b>.
-                </p>
-
-                <p>
-                    Write a program to calculate how many transactions are classified as FRAUD.
-                </p>
+                <p>You are writing the logic for a security door that decides who is allowed to enter.</p>
+                <p><strong>Inputs:</strong> <code>has_key</code>, <code>knows_code</code>, <code>is_employee</code>, <code>is_visitor</code>, <code>is_blocked</code></p>
+                <p><strong>Rules:</strong></p>
+                <p>1. If <strong>is_blocked</strong> is True → the person cannot enter.</p>
+                <p>2. If someone is BOTH an employee AND a visitor → they cannot enter.</p>
+                <p>3. Employees can enter if they have a key OR know the code.</p>
+                <p>4. Visitors can enter ONLY if they know the code.</p>
+                <p>5. Everyone else cannot enter.</p>
+                <p><strong>Task:</strong> Write a function called <code>can_enter()</code> that follows all the rules above. Call it using this exact test case:</p>
+                <pre>can_enter(True, True, True, True, False)</pre>
+                <p>Print the result and type it into the Final Answer box. Your program will print either <code>True</code> or <code>False</code>.</p>
+                <p><strong>Important:</strong> Do NOT change the test case values.</p>
             </div>
 
-            <!-- NEW: Challenge 2 style workspace -->
             <div class="workspace">
-
                 <p style="margin-bottom: 16px">
-                    If you have a preferred code editor, please use it for writing your solution. Otherwise, please use the embedded editor below.
+                    If you have a preferred code editor, please use it. Otherwise use the embedded editor below. Your choice of editor/language will not affect your ability to complete the challenge -
+                    only your final answer will be checked.
                 </p>
-
-                <!-- Optional editor (kept for UI consistency) -->
-                <iframe
-                    id="oc-editor"
-                    frameborder="0"
-                    height="450px"
-                    width="100%"
-                    src="https://onecompiler.com/embed/javascript?theme=dark&hideTitle=true&hideStdin=true">
-                </iframe>
-
+                <iframe id="oc-editor" frameborder="0" height="450px" src="https://onecompiler.com/embed/python?theme=dark&hideTitle=true&hideStdin=true" width="100%"></iframe>
                 <p style="margin-bottom: 16px">
                     <i>This code editor is embedded from <a href="https://onecompiler.com/">OneCompiler</a></i>
                 </p>
-
                 <div class="final-answer">
                     <label>Final answer:</label>
-                    <input id="answer-input" type="text" placeholder="Enter your answer..." />
+                    <input id="answer-input" type="text" placeholder="True or False..." />
                     <div id="answer-feedback"></div>
                 </div>
-
             </div>
 
             <div class="button-container">
                 <button id="submitButton" onclick="buttonAction()">Submit</button>
             </div>
-
         </div>
-
         <footer></footer>
 
         <script>
-    async function buttonAction() {
-        var input = document.getElementById("answer-input").value.trim();
-        var feedback = document.getElementById("answer-feedback");
-        var submitButton = document.getElementById("submitButton");
+            var correctHash = "1f644623abc84b0d59a676f2640ca2bf6ed76858f1c14239e5fd30f0a3613d89";
+            var salt = atob("V0lUY2hhbGxlbmdlNg==");
 
-        if (!input) {
-            feedback.textContent = "⚠️ Please enter an answer.";
-            feedback.style.color = "orange";
-            return;
-        }
-
-        // correct answer for Challenge 1
-        var correctAnswer = "11";
-
-        if (submitButton.textContent === "Submit") {
-
-            if (input === correctAnswer) {
-                feedback.textContent = "✅ Correct! Well done!";
-                feedback.style.color = "green";
-                submitButton.textContent = "Continue";
-                localStorage.setItem("current_challenge", "1");
-            } else {
-                feedback.textContent = "❌ Incorrect, try again.";
-                feedback.style.color = "red";
+            async function hashInput(input) {
+                var encoder = new TextEncoder();
+                var data = encoder.encode(salt + input);
+                var hashBuffer = await crypto.subtle.digest("SHA-256", data);
+                var hashArray = Array.from(new Uint8Array(hashBuffer));
+                return hashArray
+                    .map(function (b) {
+                        return b.toString(16).padStart(2, "0");
+                    })
+                    .join("");
             }
 
-        } else {
-            window.location.href = "../maze/index.html";
-        }
-    }
+            function toTitleCase(str) {
+                return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+            }
 
-    document.addEventListener("DOMContentLoaded", function () {
-        document.getElementById("answer-input").addEventListener("keydown", function (e) {
-            if (e.key === "Enter") buttonAction();
-        });
-    });
-</script>
+            async function buttonAction() {
+                var raw = document.getElementById("answer-input").value.trim();
+                var feedback = document.getElementById("answer-feedback");
+                const submitButton = document.getElementById("submitButton");
+                if (submitButton.textContent == "Submit") {
+                    if (raw === "") {
+                        feedback.textContent = "⚠️ Please enter an answer.";
+                        feedback.style.color = "orange";
+                        return;
+                    }
 
+                    var input = toTitleCase(raw);
+                    var hash = await hashInput(input);
+
+                    if (hash === correctHash) {
+                        feedback.textContent = "✅ Correct! Well done!";
+                        feedback.style.color = "green";
+                        submitButton.textContent = "Continue";
+                        localStorage.setItem("current_challenge", "3");
+                    } else {
+                        feedback.textContent = "❌ Incorrect, try again.";
+                        feedback.style.color = "red";
+                    }
+                } else {
+                    window.location.href = "../maze/index.html";
+                }
+            }
+
+            document.getElementById("answer-input").addEventListener("keydown", function (e) {
+                if (e.key === "Enter") buttonAction();
+            });
+        </script>
     </body>
 </html>
-
-<!-- TEST CHANGE -->
