@@ -81,45 +81,57 @@
         <footer></footer>
 
         <script>
-    async function buttonAction() {
-        var input = document.getElementById("answer-input").value.trim();
-        var feedback = document.getElementById("answer-feedback");
-        var submitButton = document.getElementById("submitButton");
+            var correctHash = "a6813699be1edc407ce3ff3625b0920f68239eae96df46236ae89e3083ace35b";
+            var salt = atob("V0lUY2hhbGxlbmdlNQ==");
 
-        if (!input) {
-            feedback.textContent = "⚠️ Please enter an answer.";
-            feedback.style.color = "orange";
-            return;
-        }
-
-        // correct answer for Challenge 1
-        var correctAnswer = "11";
-
-        if (submitButton.textContent === "Submit") {
-
-            if (input === correctAnswer) {
-                feedback.textContent = "✅ Correct! Well done!";
-                feedback.style.color = "green";
-                submitButton.textContent = "Continue";
-                localStorage.setItem("current_challenge", "5");
-            } else {
-                feedback.textContent = "❌ Incorrect, try again.";
-                feedback.style.color = "red";
+            async function hashInput(input) {
+                var encoder = new TextEncoder();
+                var data = encoder.encode(salt + input);
+                var hashBuffer = await crypto.subtle.digest("SHA-256", data);
+                var hashArray = Array.from(new Uint8Array(hashBuffer));
+                return hashArray
+                    .map(function (b) {
+                        return b.toString(16).padStart(2, "0");
+                    })
+                    .join("");
             }
 
-        } else {
-            window.location.href = "../maze/index.html";
-        }
-    }
+            async function buttonAction() {
+                var input = document.getElementById("answer-input").value.trim();
+                var feedback = document.getElementById("answer-feedback");
+                var submitButton = document.getElementById("submitButton");
 
-    document.addEventListener("DOMContentLoaded", function () {
-        document.getElementById("answer-input").addEventListener("keydown", function (e) {
-            if (e.key === "Enter") buttonAction();
-        });
-    });
-</script>
+                if (!input) {
+                    feedback.textContent = "⚠️ Please enter an answer.";
+                    feedback.style.color = "orange";
+                    return;
+                }
+
+                var hash = await hashInput(input);
+
+                if (submitButton.textContent === "Submit") {
+
+                    if (hash === correctHash) {
+                        feedback.textContent = "✅ Correct! Well done!";
+                        feedback.style.color = "green";
+                        submitButton.textContent = "Continue";
+                        localStorage.setItem("current_challenge", "5");
+                    } else {
+                        feedback.textContent = "❌ Incorrect, try again.";
+                        feedback.style.color = "red";
+                    }
+
+                } else {
+                    window.location.href = "../maze/index.html";
+                }
+            }
+
+            document.addEventListener("DOMContentLoaded", function () {
+                document.getElementById("answer-input").addEventListener("keydown", function (e) {
+                    if (e.key === "Enter") buttonAction();
+                });
+            });
+        </script>
 
     </body>
 </html>
-
-<!-- TEST CHANGE -->
