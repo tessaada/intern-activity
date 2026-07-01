@@ -13,30 +13,30 @@
                 <h2>Instructions</h2>
 
                 <p>
-                    A banking system has flagged multiple transactions for review.
-                    Your task is to analyse the dataset and identify which transactions are fraudulent.
+                    A banking system has flagged a number of transactions for review.
+                    Your task is to go through the dataset and identify which ones are fraudulent.
                 </p>
 
                 <p>
-                    You have been given a dataset here:
+                    You have been provided with a dataset here:
                     <a href="./transactions.txt">transactions.txt</a>
                 </p>
 
                 <p>Each transaction follows this format:</p>
 
-                <pre>TransactionID,Amount,Hour,AccountAge</pre>
+                <pre>TransactionID, Amount, Hour, AccountAge</pre>
 
                 <p><b>Fraud Risk Rules:</b></p>
 
                 <ul>
                     <li>Amount > 2000 → +1 risk point</li>
-                    <li>Amount > 5000 → +2 risk points (replaces normal amount rule)</li>
+                    <li>Amount > 5000 → +2 risk points (this overrides the normal amount rule)</li>
                     <li>Transaction hour between 01:00–04:00 → +1 risk point</li>
                     <li>Account age < 30 days → +1 risk point</li>
                 </ul>
 
                 <p>
-                    A transaction is classified as <b>FRAUD</b> if its total risk score is <b>2 or more</b>.
+                    A transaction is marked as <b>FRAUD</b> if its total risk score is <b>2 or higher</b>.
                 </p>
 
                 <p>
@@ -48,7 +48,7 @@
             <div class="workspace">
 
                 <p style="margin-bottom: 16px">
-                    If you have a preferred code editor, please use it for writing your solution. Otherwise, please use the embedded editor below.
+                    If you prefer using your own code editor, feel free to use it. Otherwise, you can use the embedded editor below.
                 </p>
 
                 <!-- Optional editor (kept for UI consistency) -->
