@@ -1,0 +1,145 @@
+const container = document.body;
+const width = container.clientWidth;
+const height = container.clientHeight;
+
+if (width < height) {
+    container.setAttribute("data-direction", "column");
+} else {
+    container.setAttribute("data-direction", "row");
+}
+
+const maze = document.getElementById("maze");
+
+const dims = window.innerWidth > window.innerHeight ? window.innerHeight * 0.9 + "px" : window.innerWidth * 0.9 + "px";
+
+maze.style.width = dims;
+maze.style.height = dims;
+
+const start = [0, 1];
+const end = [29, 28];
+
+const divSize = dims / 30;
+const wallMap = [
+    ["1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1"],
+    ["P", "0", "1", "0", "0", "0", "1", "0", "0", "0", "1", "0", "1", "0", "0", "0", "1", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1"],
+    ["1", "0", "1", "1", "1", "0", "0", "0", "1", "1", "1", "0", "1", "0", "1", "0", "0", "0", "1", "0", "1", "1", "1", "1", "1", "1", "1", "1", "0", "1"],
+    ["1", "0", "0", "0", "1", "1", "1", "0", "1", "0", "1", "0", "1", "0", "1", "1", "0", "1", "1", "0", "1", "0", "0", "1", "0", "0", "0", "1", "0", "1"],
+    ["1", "1", "1", "0", "0", "0", "0", "0", "0", "0", "1", "0", "1", "0", "0", "1", "0", "1", "0", "0", "1", "0", "1", "1", "0", "1", "1", "1", "0", "1"],
+    ["1", "0", "1", "0", "1", "1", "1", "1", "1", "0", "1", "0", "1", "1", "0", "1", "0", "1", "0", "1", "1", "0", "1", "0", "0", "0", "0", "0", "0", "1"],
+    ["1", "0", "1", "0", "1", "0", "0", "0", "1", "0", "1", "0", "0", "0", "0", "0", "0", "1", "0", "0", "0", "0", "1", "0", "1", "1", "1", "1", "0", "1"],
+    ["1", "0", "1", "0", "1", "0", "1", "0", "1", "1", "1", "1", "1", "1", "1", "1", "0", "1", "1", "1", "1", "0", "1", "0", "1", "0", "0", "0", "0", "1"],
+    ["1", "0", "1", "0", "0", "0", "1", "0", "1", "0", "1", "0", "0", "0", "0", "1", "0", "0", "0", "0", "0", "0", "1", "0", "1", "1", "1", "1", "0", "1"],
+    ["1", "0", "1", "1", "1", "0", "1", "0", "1", "0", "1", "0", "1", "1", "0", "1", "1", "1", "1", "1", "1", "0", "1", "0", "0", "0", "0", "1", "1", "1"],
+    ["1", "0", "0", "0", "1", "0", "1", "0", "0", "0", "1", "0", "1", "0", "0", "0", "1", "0", "1", "0", "0", "0", "1", "1", "0", "1", "0", "0", "0", "1"],
+    ["1", "1", "1", "0", "0", "0", "1", "0", "1", "1", "1", "0", "1", "0", "1", "0", "1", "0", "0", "0", "1", "0", "0", "1", "0", "1", "1", "1", "0", "1"],
+    ["1", "0", "0", "0", "1", "1", "1", "0", "1", "0", "0", "0", "1", "1", "1", "0", "1", "1", "0", "1", "1", "1", "0", "1", "0", "1", "0", "0", "0", "1"],
+    ["1", "0", "1", "1", "1", "0", "0", "0", "1", "0", "1", "0", "0", "0", "1", "0", "0", "1", "0", "1", "0", "1", "0", "1", "0", "1", "0", "1", "1", "1"],
+    ["1", "0", "1", "0", "0", "0", "1", "0", "1", "0", "1", "0", "1", "1", "1", "1", "0", "0", "0", "1", "0", "1", "0", "1", "0", "1", "0", "0", "0", "1"],
+    ["1", "0", "1", "0", "1", "0", "1", "0", "1", "0", "1", "0", "0", "1", "0", "1", "1", "1", "1", "1", "0", "0", "0", "1", "1", "1", "1", "1", "0", "1"],
+    ["1", "0", "1", "0", "1", "1", "1", "0", "1", "0", "1", "1", "1", "1", "0", "0", "0", "1", "0", "1", "1", "1", "1", "1", "0", "0", "0", "0", "0", "1"],
+    ["1", "1", "1", "0", "0", "0", "1", "0", "1", "0", "0", "0", "0", "1", "1", "1", "0", "1", "0", "0", "0", "0", "0", "0", "0", "1", "1", "1", "1", "1"],
+    ["1", "0", "1", "0", "1", "1", "1", "0", "1", "1", "1", "1", "0", "1", "0", "1", "0", "1", "1", "1", "1", "0", "1", "0", "1", "1", "0", "0", "0", "1"],
+    ["1", "0", "1", "0", "1", "0", "0", "0", "1", "0", "0", "0", "0", "1", "0", "1", "0", "0", "0", "0", "1", "0", "1", "0", "0", "1", "0", "1", "0", "1"],
+    ["1", "0", "1", "0", "1", "1", "1", "1", "1", "0", "1", "0", "1", "1", "0", "1", "0", "1", "0", "1", "1", "0", "1", "1", "1", "1", "0", "1", "0", "1"],
+    ["1", "0", "1", "0", "0", "0", "0", "0", "0", "0", "1", "0", "1", "0", "0", "1", "0", "1", "0", "1", "0", "0", "0", "0", "0", "0", "0", "1", "0", "1"],
+    ["1", "0", "1", "1", "1", "1", "1", "1", "1", "1", "1", "0", "1", "1", "0", "1", "0", "1", "0", "1", "0", "1", "1", "1", "0", "1", "0", "1", "0", "1"],
+    ["1", "0", "1", "0", "0", "0", "0", "1", "0", "1", "0", "0", "0", "0", "0", "1", "0", "1", "1", "1", "0", "1", "0", "1", "0", "1", "1", "1", "0", "1"],
+    ["1", "0", "1", "0", "1", "1", "1", "1", "0", "1", "0", "1", "0", "1", "0", "1", "0", "0", "0", "0", "0", "1", "0", "1", "0", "1", "0", "0", "0", "1"],
+    ["1", "0", "1", "0", "0", "1", "0", "0", "0", "1", "1", "1", "1", "1", "0", "1", "1", "1", "1", "1", "1", "1", "0", "1", "0", "1", "1", "1", "0", "1"],
+    ["1", "0", "0", "0", "0", "1", "0", "1", "0", "1", "0", "0", "0", "1", "0", "1", "0", "0", "0", "1", "0", "0", "0", "1", "0", "0", "0", "1", "0", "1"],
+    ["1", "1", "1", "1", "0", "1", "0", "1", "0", "0", "0", "1", "1", "1", "0", "1", "0", "1", "0", "1", "0", "1", "0", "1", "1", "1", "0", "1", "1", "1"],
+    ["1", "0", "0", "0", "0", "0", "0", "1", "0", "1", "0", "0", "0", "0", "0", "0", "0", "1", "0", "0", "0", "1", "0", "0", "0", "1", "0", "0", "0", "E"],
+    ["1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1"],
+];
+
+const player = {
+    x: parseInt(localStorage.getItem("player_x")),
+    y: parseInt(localStorage.getItem("player_y")),
+    color: "#ff0000",
+};
+
+const challenges = [
+    { x: 5, y: 6, completed: false },
+    { x: 7, y: 13, completed: false },
+    { x: 11, y: 19, completed: false },
+    { x: 19, y: 4, completed: false },
+    { x: 28, y: 3, completed: false },
+    { x: 24, y: 21, completed: false },
+];
+
+for (let y = 0; y < 30; y++) {
+    for (let x = 0; x < 30; x++) {
+        const cell = document.createElement("div");
+        cell.id = `${x},${y}`;
+        cell.style.width = divSize + "px";
+        cell.style.height = divSize + "px";
+        if (y == player.y && x == player.x) {
+            cell.classList.add("player");
+        } else if (wallMap[y][x] == "E") {
+            cell.classList.add("end");
+        } else if (challenges.find((c, i) => c.x == x && c.y == y && i + 1 > parseInt(localStorage.getItem("current_challenge")))) {
+            cell.classList.add("challenge");
+        } else if (wallMap[y][x] == "1") {
+            cell.classList.add("wall");
+        }
+        maze.appendChild(cell);
+    }
+}
+
+document.body.addEventListener("keydown", (e) => {
+    const oldCell = document.getElementById(`${player.x},${player.y}`);
+    switch (e.key) {
+        case "ArrowLeft":
+            if (player.x != 0) {
+                const newCell = document.getElementById(`${player.x - 1},${player.y}`);
+                if (!newCell.classList.contains("wall")) {
+                    player.x -= 1;
+                    oldCell.classList.remove("player");
+                    newCell.classList.add("player");
+                }
+            }
+            break;
+        case "ArrowRight":
+            if (player.x != 29) {
+                const newCell = document.getElementById(`${player.x + 1},${player.y}`);
+                if (!newCell.classList.contains("wall")) {
+                    player.x += 1;
+                    oldCell.classList.remove("player");
+                    newCell.classList.add("player");
+                }
+            }
+            break;
+        case "ArrowUp":
+            if (player.y != 0) {
+                const newCell = document.getElementById(`${player.x},${player.y - 1}`);
+                if (!newCell.classList.contains("wall")) {
+                    player.y -= 1;
+                    oldCell.classList.remove("player");
+                    newCell.classList.add("player");
+                }
+            }
+            break;
+        case "ArrowDown":
+            if (player.y != 29) {
+                const newCell = document.getElementById(`${player.x},${player.y + 1}`);
+                if (!newCell.classList.contains("wall")) {
+                    player.y += 1;
+                    oldCell.classList.remove("player");
+                    newCell.classList.add("player");
+                }
+            }
+            break;
+    }
+    const currentCell = document.getElementById(`${player.x},${player.y}`);
+    if (currentCell.classList.contains("end")) {
+        window.location.href = "../Final-page.html";
+    } else if (currentCell.classList.contains("challenge")) {
+        challenges.forEach((challenge, i) => {
+            if (player.x == challenge.x && player.y == challenge.y) {
+                localStorage.setItem("player_x", `${player.x}`);
+                localStorage.setItem("player_y", `${player.y}`);
+                document.location.href = `../challenges/challenge-${i + 1}.html`;
+            }
+        });
+    }
+});
