@@ -2,6 +2,14 @@
     <head>
         <title>Intern Challenge</title>
         <link rel="stylesheet" href="challenge-template.css" />
+
+        <style>
+            .instructions ul {
+                list-style: none;
+                padding-left: 0;
+                margin-left: 0;
+            }
+        </style>
     </head>
 
     <body>
@@ -10,48 +18,49 @@
             <div class="title">Challenge 5: Fraud Detection Terminal</div>
 
             <div class="instructions">
+
                 <h2>Instructions</h2>
 
                 <p>
-                    A banking system has flagged a number of transactions for review.
-                    Your task is to go through the dataset and identify which ones are fraudulent.
+                    You have been given a list of bank transactions that have been flagged for review.
+                    Your task is to analyse the dataset and identify which transactions are fraudulent.
                 </p>
 
                 <p>
-                    You have been provided with a dataset here:
+                    The dataset can be found here:
                     <a href="./transactions.txt">transactions.txt</a>
                 </p>
 
-                <p>Each transaction follows this format:</p>
+                <p>Each transaction is in the following format:</p>
 
-                <pre>TransactionID, Amount, Hour, AccountAge</pre>
+                <pre>TransactionID,Amount,Hour,AccountAge</pre>
 
                 <p><b>Fraud Risk Rules:</b></p>
 
                 <ul>
                     <li>Amount > 2000 → +1 risk point</li>
-                    <li>Amount > 5000 → +2 risk points (this overrides the normal amount rule)</li>
+                    <li>Amount > 5000 → +2 risk points (this replaces the rule above)</li>
                     <li>Transaction hour between 01:00–04:00 → +1 risk point</li>
                     <li>Account age < 30 days → +1 risk point</li>
                 </ul>
 
                 <p>
-                    A transaction is marked as <b>FRAUD</b> if its total risk score is <b>2 or higher</b>.
+                    A transaction is classified as <b>FRAUD</b> if its total risk score is <b>2 or more</b>.
                 </p>
 
                 <p>
-                    Write a program to calculate how many transactions are classified as FRAUD.
+                    Write a program to determine how many transactions are classified as FRAUD.
                 </p>
+
             </div>
 
-            <!-- NEW: Challenge 2 style workspace -->
             <div class="workspace">
 
                 <p style="margin-bottom: 16px">
-                    If you prefer using your own code editor, feel free to use it. Otherwise, you can use the embedded editor below.
+                    If you have a preferred code editor, you may use it to complete your solution.
+                    Otherwise, please use the embedded editor below.
                 </p>
 
-                <!-- Optional editor (kept for UI consistency) -->
                 <iframe
                     id="oc-editor"
                     frameborder="0"
@@ -101,15 +110,15 @@
                 var feedback = document.getElementById("answer-feedback");
                 var submitButton = document.getElementById("submitButton");
 
-                if (!input) {
-                    feedback.textContent = "⚠️ Please enter an answer.";
-                    feedback.style.color = "orange";
-                    return;
-                }
-
-                var hash = await hashInput(input);
-
                 if (submitButton.textContent === "Submit") {
+
+                    if (input === "") {
+                        feedback.textContent = "⚠️ Please enter an answer.";
+                        feedback.style.color = "orange";
+                        return;
+                    }
+
+                    var hash = await hashInput(input);
 
                     if (hash === correctHash) {
                         feedback.textContent = "✅ Correct! Well done!";
@@ -126,10 +135,8 @@
                 }
             }
 
-            document.addEventListener("DOMContentLoaded", function () {
-                document.getElementById("answer-input").addEventListener("keydown", function (e) {
-                    if (e.key === "Enter") buttonAction();
-                });
+            document.getElementById("answer-input").addEventListener("keydown", function (e) {
+                if (e.key === "Enter") buttonAction();
             });
         </script>
 
