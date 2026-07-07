@@ -1,0 +1,16 @@
+:root {
+    --main-color: #171717;
+    --secondary-color: #eaeaea;
+    --accent-color: #e40114;
+
+    --challenge-color: #4d91ff;
+    --player-color: #fcdc4d;
+    --end-color: #00ff00;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}

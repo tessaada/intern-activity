@@ -7,7 +7,7 @@
 
 body {
     height: 100vh;
-    background: linear-gradient(135deg, #000 60%, #b30000);
+    background: linear-gradient(0deg, var(--main-color) 80%, #740000);
     color: white;
     display: flex;
     padding: 0;
