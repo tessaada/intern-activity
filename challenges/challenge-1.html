@@ -2,26 +2,32 @@
 <html>
     <head>
         <title>Intern Challenge</title>
+        <link rel="stylesheet" href="../baseStyle.css" />
         <link rel="stylesheet" href="challenge-template.css" />
     </head>
     <body>
         <div class="container">
-            <div class="title">Challenge 1: Security Door</div>
+            <div class="title"><h1>Challenge 1: Security Door</h1></div>
 
             <div class="instructions">
                 <h2>Instructions</h2>
                 <p>You are writing the logic for a security door that decides who is allowed to enter.</p>
-                <p><strong>Inputs:</strong> <code>has_key</code>, <code>knows_code</code>, <code>is_employee</code>, <code>is_visitor</code>, <code>is_blocked</code></p>
-                <p><strong>Rules:</strong></p>
-                <p>1. If <strong>is_blocked</strong> is True → the person cannot enter.</p>
-                <p>2. If someone is BOTH an employee AND a visitor → they cannot enter.</p>
-                <p>3. Employees can enter if they have a key OR know the code.</p>
-                <p>4. Visitors can enter ONLY if they know the code.</p>
-                <p>5. Everyone else cannot enter.</p>
-                <p><strong>Task:</strong> Write a function called <code>can_enter()</code> that follows all the rules above. Call it using this exact test case:</p>
+                <h3>Inputs</h3>
+                <p><code>has_key</code>, <code>knows_code</code>, <code>is_employee</code>, <code>is_visitor</code>, <code>is_blocked</code></p>
+                <h3>Rules</h3>
+                <ol>
+                    <li>If <strong>is_blocked</strong> is True → the person cannot enter.</li>
+                    <li>If someone is BOTH an employee AND a visitor → they cannot enter.</li>
+                    <li>Employees can enter if they have a key OR know the code.</li>
+                    <li>Visitors can enter ONLY if they know the code.</li>
+                    <li>Everyone else cannot enter.</li>
+                </ol>
+                <h3>Task</h3>
+                <p>Write a function called <code>can_enter()</code> that follows all the rules above. Call it using this exact test case:</p>
                 <pre>can_enter(True, True, True, True, False)</pre>
                 <p>Print the result and type it into the Final Answer box. Your program will print either <code>True</code> or <code>False</code>.</p>
-                <p><strong>Important:</strong> Do NOT change the test case values.</p>
+                <h3>Important</h3>
+                <p>Do NOT change the test case values.</p>
             </div>
 
             <div class="workspace">
@@ -35,11 +41,10 @@
                 </p>
                 <div class="final-answer">
                     <label>Final answer:</label>
-                    <input id="answer-input" type="text" placeholder="True or False..." />
+                    <input id="answer-input" type="text" placeholder="Enter your answer..." />
                     <div id="answer-feedback"></div>
                 </div>
             </div>
-
             <div class="button-container">
                 <button id="submitButton" onclick="buttonAction()">Submit</button>
             </div>

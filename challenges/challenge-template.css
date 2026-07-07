@@ -5,12 +5,23 @@
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
+html, body {
+  height: 100%;
+  width: 100%;
+  background-color: var(--main-color);
+  color: var(--secondary-color);
+}
+
 body {
-  height: 100vh;
-  background: linear-gradient(135deg, #000 60%, #b30000);
+  min-height: 100vh;
+  background: linear-gradient(0deg, var(--main-color) 80%, #740000);
   color: white;
   display: flex;
   padding: 0;
+}
+
+a {
+  color: var(--accent-color);
 }
 
 .container {
@@ -18,46 +29,62 @@ body {
   height: 100%;
   display: flex;
   flex-direction: column;
+  align-items: center;
   padding: 20px;
-  text-align: center;
   animation: fadeIn 1.5s ease-in;
 }
 
-.title {
-  background-color: rgba(0, 0, 0, 0.85);
-  border: 2px solid red;
-  padding: 20px;
-  margin-bottom: 20px;
-  text-align: center;
-  font-size: 28px;
-  font-weight: bold;
-  color: #ff1a1a;
-  box-shadow: 0 0 20px red;
+h1 {
+    text-align: center;
+    font-size: 3rem;
+    margin: 40px 0px;
+    color: var(--accent-color);
+}
+
+h2 {
+    text-align: center;
+    font-weight: 300;
+    font-size:30px;
+    margin-bottom: 30px;
+    color: var(--secondary-color);
+}
+
+h3 {
+    font-weight: 700;
+    margin-top:20px;
+    margin-bottom: 10px;
+    color: var(--secondary-color);
+}
+
+p, pre, ol, ul {
+    margin-bottom: 20px;
+    color: var(--secondary-color);
+}
+
+code, pre {
+    background-color: rgba(255, 255, 255, 0.03);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-family: 'Courier New', Courier, monospace;
+    color: var(--secondary-color);
 }
 
 .instructions {
-  background-color: rgba(0, 0, 0, 0.85);
-  border: 2px solid red;
-  padding: 15px;
-  margin-bottom: 20px;
-  line-height: 1.6;
-  color: #ddd;
-  box-shadow: 0 0 20px red;
-}
-
-.instructions h2,
-.instructions p {
-  color: #ddd;
-  margin-bottom: 10px;
+  max-width: 700px;
+  margin: 30px 0;
 }
 
 .workspace {
-  background-color: rgba(0, 0, 0, 0.85);
-  border: 2px solid red;
-  padding: 30px;
-  margin-bottom: 20px;
-  flex: 1;
-  box-shadow: 0 0 20px red;
+  padding: 0 30px;
+  width:100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.workspace > p {
+  max-width: 700px;
+  margin-top:20px;
 }
 
 input {
@@ -82,14 +109,15 @@ input:hover {
 }
 
 button {
-  padding: 15px 40px;
-  font-size: 18px;
-  background-color: red;
-  color: white;
-  border: none;
-  cursor: pointer;
-  border-radius: 4px;
-  transition: all 0.3s ease;
+    padding: 15px 30px;
+    font-size: 1rem;
+    cursor: pointer;
+    border: none;
+    border-radius: 30px;
+    transition: all 0.3s ease;
+    background-color: var(--accent-color);
+    color: var(--secondary-color);
+    margin-bottom:50px;
 }
 
 button:hover {
@@ -100,7 +128,6 @@ button:hover {
 .final-answer {
   display: flex;
   align-items: center;
-  justify-content: flex-start;
   gap: 12px;
   padding-left: 20px;
 }
@@ -114,11 +141,9 @@ label {
 @keyframes fadeIn {
   from {
     opacity: 0;
-    transform: translateY(30px);
   }
   to {
     opacity: 1;
-    transform: translateY(0);
   }
 }
 
